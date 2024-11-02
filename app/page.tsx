@@ -6,34 +6,46 @@ import ArticleGrid from "@/components/articles";
 import ListingGrid from "@/components/listings/client";
 import { getListings } from "@/components/listings/server";
 import notionQuery from "@/lib/query";
+import { use } from 'react';
 
-export default async function Home() {
+// ISR Configuration
+export const revalidate = 300; // Revalidate every 5 minutes
 
-  // --- 
-  // #region // GET SITE DATA
-  const { site } = await getSiteData() as { site: Site };
+export async function generateStaticParams() {
+  // Fetch all directories
+  const directories = await notionQuery('directories');
+  
+  // Generate static params for each directory
+  return directories.map((directory) => ({
+    domain: directory.domain,
+  }));
+}
+
+export default function Home({
+  params,
+}: {
+  params: Promise<{ domain?: string }>;
+}) {
+  const resolvedParams = use(params);
+  const { site } = use(getSiteData(resolvedParams.domain)) as { site: Site };
+
   if (!site) {
     throw new Error('Site data not found');
-  } else {
-    // console.log(site);
   }
-  // #endregion
-  // ---
 
-  const listings = await getListings(site.id);
-  const articles = await notionQuery('articles', {
+  const listings = use(getListings(site.id));
+  const articles = use(notionQuery('articles', {
     "property": "Directory",
     "relation": {
       "contains": site.id
     }
-  });
+  }));
 
   const featuredArticles = articles.filter(article => article.featured);
   const hasMoreArticles = articles.length > featuredArticles.length;
 
   return (
     <main className="flex flex-col gap-16 mb-4 md:mb-8 z-0">
-
       <section id="hero" className="relative w-full h-[500px] rounded-2xl overflow-hidden">
         <Image
           src={site.cover}

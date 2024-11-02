@@ -12,7 +12,7 @@ import ListingRating from "./rating";
 export default function ListingGrid({ initialListings, site }: { initialListings: any[], site: Site }) {
   const [filteredListings, setFilteredListings] = useState(initialListings);
 
-  console.log(initialListings);
+  // console.log(initialListings);
 
   // Normal card component
   function ListingCard(listing: any) {

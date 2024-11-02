@@ -80,6 +80,22 @@ export default async function notionQuery(databaseName: string, filter?: QueryDa
         case 'number':
           properties[lowercaseKey] = value.number?.toString() ?? '0' as string;
           break;
+        case 'rollup':
+          if (value.rollup.type === 'number') {
+            properties[lowercaseKey] = value.rollup.number?.toString() ?? '0' as string;
+          } else if (value.rollup.type === 'array') {
+            properties[lowercaseKey] = value.rollup.array
+              .map(item => {
+                if ('title' in item) return item.title[0]?.plain_text ?? '';
+                if ('rich_text' in item) return item.rich_text[0]?.plain_text ?? '';
+                if ('number' in item) return item.number?.toString() ?? '0';
+                return '';
+              })
+              .join(', ') as string;
+          } else {
+            properties[lowercaseKey] = '' as string;
+          }
+          break;
       }
     }
 

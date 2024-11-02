@@ -7,6 +7,22 @@ import { getSiteData } from "@/lib/data";
 import { Site } from "@/lib/data";
 import ListingRating from "@/components/listings/rating";
 
+// ---
+// #region // ISR CONFIGURATION
+
+export async function generateStaticParams() {
+  const listings = await notionQuery('listings', undefined, undefined);
+  return listings.map((listing) => ({
+    listings: listing.type, // assuming you have a 'type' field in your listings
+    slug: listing.slug,
+  }));
+}
+
+export const revalidate = 300; // Revalidate every 5 minutes
+
+// #endregion
+// ---
+
 export default async function Listing({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
@@ -18,6 +34,7 @@ export default async function Listing({ params }: { params: Promise<{ slug: stri
     };
     const listing = await notionQuery('listings', filterOptions, undefined).then((listing) => listing[0]);
     const { site } = await getSiteData() as { site: Site };
+    // console.log(listing);
 
     return (
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8 min-h-screen">

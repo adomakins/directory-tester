@@ -6,6 +6,22 @@ import Subscribe from "@/components/subscribe";
 import { getSiteData } from "@/lib/data";
 import { Site } from "@/lib/data";
 
+// ---
+// #region // ISR CONFIGURATION
+
+export async function generateStaticParams() {
+  const articles = await notionQuery('articles', undefined, undefined);
+  return articles.map((article) => ({
+    slug: article.slug,
+  }));
+}
+
+// Add revalidate to the page metadata
+export const revalidate = 300; // Revalidate every 5 minutes
+
+// #endregion
+// ---
+
 export default async function Article({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
