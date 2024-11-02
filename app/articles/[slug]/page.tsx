@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import Subscribe from "@/components/subscribe";
 import { getSiteData } from "@/lib/data";
 import { Site } from "@/lib/data";
+import type { GetStaticPaths, GetStaticProps } from 'next'
+
 
 // ---
 // #region // ISR CONFIGURATION
@@ -17,6 +19,7 @@ export async function generateStaticParams() {
 }
 
 // Add revalidate to the page metadata
+export const dynamicParams = true;
 export const revalidate = 3600; // Revalidate every hour
 
 // #endregion

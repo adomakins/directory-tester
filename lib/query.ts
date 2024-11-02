@@ -1,8 +1,7 @@
 import { Client } from '@notionhq/client'
 import { PageObjectResponse, QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints'
-import { cache } from 'react'
 
-export default cache(async function notionQuery(databaseName: string, filter?: QueryDatabaseParameters['filter'], sorts?: QueryDatabaseParameters['sorts']) {
+export default async function notionQuery(databaseName: string, filter?: QueryDatabaseParameters['filter'], sorts?: QueryDatabaseParameters['sorts']) {
   const databaseId = process.env[`NOTION_${databaseName.toUpperCase()}_DATABASE`];
   const notion = new Client({ auth: process.env.NOTION_INTEGRATION_TOKEN });
 
@@ -110,4 +109,4 @@ export default cache(async function notionQuery(databaseName: string, filter?: Q
   );
 
   return results;
-})
+}
