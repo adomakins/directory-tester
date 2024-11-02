@@ -7,6 +7,19 @@ import { getSiteData } from "@/lib/data";
 import { Site } from "@/lib/data";
 import ListingRating from "@/components/listings/rating";
 
+export interface Listing {
+    slug: string;
+    name: string;
+    rating: number;
+    description: string;
+    cover: string;
+    subtypes_data: any[];
+}
+
+interface Props {
+    listing: Listing;
+}
+
 // ---
 // #region // ISR CONFIGURATION
 
@@ -18,7 +31,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export const revalidate = 300; // Revalidate every 5 minutes
+export const revalidate = 3600; // Revalidate every hour
 
 // #endregion
 // ---

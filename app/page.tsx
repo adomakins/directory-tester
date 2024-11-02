@@ -6,10 +6,9 @@ import ArticleGrid from "@/components/articles";
 import ListingGrid from "@/components/listings/client";
 import { getListings } from "@/components/listings/server";
 import notionQuery from "@/lib/query";
-import { use } from 'react';
 
 // ISR Configuration
-export const revalidate = 300; // Revalidate every 5 minutes
+export const revalidate = 3600; // Revalidate every hour
 
 export async function generateStaticParams() {
   // Fetch all directories
@@ -21,25 +20,25 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function Home({
+export default async function Home({
   params,
 }: {
   params: Promise<{ domain?: string }>;
 }) {
-  const resolvedParams = use(params);
-  const { site } = use(getSiteData(resolvedParams.domain)) as { site: Site };
+  const resolvedParams = await params;
+  const { site } = await getSiteData(resolvedParams.domain) as { site: Site };
 
   if (!site) {
     throw new Error('Site data not found');
   }
 
-  const listings = use(getListings(site.id));
-  const articles = use(notionQuery('articles', {
+  const listings = await getListings(site.id);
+  const articles = await notionQuery('articles', {
     "property": "Directory",
     "relation": {
       "contains": site.id
     }
-  }));
+  });
 
   const featuredArticles = articles.filter(article => article.featured);
   const hasMoreArticles = articles.length > featuredArticles.length;

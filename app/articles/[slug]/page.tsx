@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 }
 
 // Add revalidate to the page metadata
-export const revalidate = 300; // Revalidate every 5 minutes
+export const revalidate = 3600; // Revalidate every hour
 
 // #endregion
 // ---
