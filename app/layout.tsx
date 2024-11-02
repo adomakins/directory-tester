@@ -19,6 +19,9 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+// Add revalidate to the page metadata
+export const revalidate = 300; // Revalidate every 5 minutes
+
 export async function generateMetadata(): Promise<Metadata> {
   const { site } = await getSiteData();
   if (!site) {
