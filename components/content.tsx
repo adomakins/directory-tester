@@ -60,25 +60,25 @@ export default async function Content({ page }: { page: string }) { // Page ID
                 );
             case 'heading_1':
                 return (
-                    <h2 key={id} className="text-2xl font-bold mb-4">
+                    <h2 key={id} className="text-2xl font-bold mb-4 mt-6">
                         {renderRichText(value.rich_text)}
                     </h2>
                 );
             case 'heading_2':
                 return (
-                    <h3 key={id} className="text-xl font-bold mb-3">
+                    <h3 key={id} className="text-xl font-bold mb-3 mt-4">
                         {renderRichText(value.rich_text)}
                     </h3>
                 );
             case 'heading_3':
                 return (
-                    <h4 key={id} className="text-lg font-bold mb-2">
+                    <h4 key={id} className="text-lg font-bold mb-2 mt-2">
                         {renderRichText(value.rich_text)}
                     </h4>
                 );
             case 'bulleted_list_item':
                 return (
-                    <li key={id} className="ml-6 mb-1">
+                    <li key={id} className="mb-1">
                         {renderRichText(value.rich_text)}
                     </li>
                 );

@@ -18,7 +18,10 @@ export default function Footer({ site }: { site: Site }) {
                 {site.name}.com
                 </h1>
               </Link>
-              <p className="text-sm text-neutral-500">&copy; {new Date().getFullYear()} {site.name}</p>
+              <div className="text-center md:text-right flex flex-col md:flex-row gap-2">
+                <a href={`mailto:contact@${site.domain}`} className="text-sm text-neutral-500">contact@{site.domain}</a>
+                <p className="text-sm text-neutral-500">&copy; {new Date().getFullYear()} {site.name}</p>
+              </div>
             </CardContent>
           </Card>
         </footer>

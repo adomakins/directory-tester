@@ -1,6 +1,12 @@
 import { Star } from "lucide-react";
 
 export default function ListingRating({ rating }: { rating: number }) {
+    // console.log(rating);
+    if (!rating || rating === 0) {
+        console.log("rating is 0 or undefined");
+        return null;
+    }
+
     // Ensure rating is between 1 and 5
     const normalizedRating = Math.max(1, Math.min(5, rating));
     

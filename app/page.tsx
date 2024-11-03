@@ -34,10 +34,20 @@ export default async function Home({
 
   const listings = await getListings(site.id);
   const articles = await notionQuery('articles', {
-    "property": "Directory",
-    "relation": {
-      "contains": site.id
-    }
+    and: [
+      {
+        "property": "Directory",
+        "relation": {
+          "contains": site.id
+        },
+      },
+      {
+        "property": "Published",
+        checkbox: {
+          equals: true
+        },
+      },
+    ],
   });
 
   const featuredArticles = articles.filter(article => article.featured);
